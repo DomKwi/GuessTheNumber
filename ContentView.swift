@@ -11,7 +11,8 @@ struct ContentView: View {
     @State private var showingAlert = false
     @State var sliderValue: Float = 50
     @State private var difference:Int = 0
-    
+    @State var round: Int = 1
+    @State var score: Int = 0
     
     var randomValue = Int.random(in: 1...100)
     
@@ -36,6 +37,7 @@ struct ContentView: View {
                 print("Hit")
                 showingAlert = true
                 
+                
                 let roundedSliderValue:Int = Int(sliderValue)
                 
                 if randomValue > roundedSliderValue {
@@ -46,6 +48,7 @@ struct ContentView: View {
                     print("Random Value is now lower that rounded slider value")
                 } else {
                     difference = 0
+                    round += 1
                     print("you win")
                 }
                 
@@ -61,11 +64,12 @@ struct ContentView: View {
             
             HStack(alignment: .bottom, spacing: 150){
                 Button("Restart") {
+                    round = 1
                     print("Restart")
                 }
                 
                 Text("Score:")
-                Text("Round")
+                Text("Round: \(round)")
                 
                 Button("i") {
                     print("information")

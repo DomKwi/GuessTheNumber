@@ -16,10 +16,15 @@ struct ContentView: View {
     @State var score: Int = 0
     @State var randomValue = Int.random(in: 1...100)
     
-    func ResetRandomValue() {
-        randomValue = Int.random(in: 1...100)
+    func LoseGame() {
+        round = 1
+        score = 0
     }
     
+    func WinGame() {
+        round += 1
+        score += 100
+    }
     
     
     var body: some View {
@@ -43,22 +48,18 @@ struct ContentView: View {
                 let roundedSliderValue:Int = Int(sliderValue)
                 
                 if randomValue > roundedSliderValue {
-                    
+                    LoseGame()
                     difference = randomValue - roundedSliderValue
-                    score = 0
                     print("Random value is now bigger than rounded slider value")
                     
                 } else if randomValue < roundedSliderValue {
-                    
+                    LoseGame()
                     difference = randomValue - roundedSliderValue
-                    score = 0
                     print("Random Value is now lower that rounded slider value")
                     
                 } else {
-                    
+                    WinGame()
                     difference = 0
-                    round += 1
-                    score += 100
                     print("you win")
                 }
                 
@@ -68,7 +69,11 @@ struct ContentView: View {
                     title: Text("Hello World!"),
                     message: Text("The value of the slider is now: \(randomValue)" +
                                  "\nThe target value is: \(sliderValue) " +
-                                 "\nThe diffrence is: \(difference)")
+                                 "\nThe diffrence is: \(difference)"),
+                    dismissButton: .default(Text("Ok"), action: {
+                        randomValue = Int.random(in: 1...100);
+                        sliderValue = 50
+                    })
                     )
             }
             
@@ -88,8 +93,8 @@ struct ContentView: View {
                         secondaryButton: .destructive(
                             Text("Yes"),
                             action: {
-                                score = 0;
-                                round = 1
+                                LoseGame();
+                                sliderValue = 50
                             }
                         )
                     )

@@ -42,13 +42,16 @@ struct ContentView: View {
                 
                 if randomValue > roundedSliderValue {
                     difference = randomValue - roundedSliderValue
+                    score = 0
                     print("Random value is now bigger than rounded slider value")
                 } else if randomValue < roundedSliderValue {
                     difference = randomValue - roundedSliderValue
+                    score = 0
                     print("Random Value is now lower that rounded slider value")
                 } else {
                     difference = 0
                     round += 1
+                    score += 100
                     print("you win")
                 }
                 
@@ -65,10 +68,13 @@ struct ContentView: View {
             HStack(alignment: .bottom, spacing: 150){
                 Button("Restart") {
                     round = 1
-                    print("Restart")
+                    score = 0
+                }
+                .alert("Restar Game?", isPresented: $showingAlert) {
+                    
                 }
                 
-                Text("Score:")
+                Text("Score: \(score)")
                 Text("Round: \(round)")
                 
                 Button("i") {

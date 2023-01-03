@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-   @State var sliderValue: Float = 1
-    var randomValue = Int.random(in: 1...100)
     @State private var showingAlert = false
+    @State var sliderValue: Float = 50
+    
+    var roundedValue:Int = Int(round(sliderValue))
+    var randomValue = Int.random(in: 1...100)
+    var difference: Int = 0
     
     
     
@@ -30,11 +33,18 @@ struct ContentView: View {
             Button("Hit me!") {
                 print("Hit")
                 showingAlert = true
+                
+                if randomValue > sliderValue {
+                    
+                }
+                
             }
             .alert(isPresented: $showingAlert) {
                 Alert(
                     title: Text("Hello World!"),
-                    message: Text("The value of slider is now: \(sliderValue)")
+                    message: Text(
+                        String(format:"The value of slider is now: " + "%.0f", sliderValue)
+                        )
                     )
             }
             

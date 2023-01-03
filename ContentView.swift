@@ -9,14 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showingAlert = false
+    @State private var showingAlert2 = false
     @State var sliderValue: Float = 50
     @State private var difference:Int = 0
     @State var round: Int = 1
     @State var score: Int = 0
+    @State var randomValue = Int.random(in: 1...100)
     
-    var randomValue = Int.random(in: 1...100)
-    
-   
+    func ResetRandomValue() {
+        randomValue = Int.random(in: 1...100)
+    }
     
     
     
@@ -41,14 +43,19 @@ struct ContentView: View {
                 let roundedSliderValue:Int = Int(sliderValue)
                 
                 if randomValue > roundedSliderValue {
+                    
                     difference = randomValue - roundedSliderValue
                     score = 0
                     print("Random value is now bigger than rounded slider value")
+                    
                 } else if randomValue < roundedSliderValue {
+                    
                     difference = randomValue - roundedSliderValue
                     score = 0
                     print("Random Value is now lower that rounded slider value")
+                    
                 } else {
+                    
                     difference = 0
                     round += 1
                     score += 100
@@ -66,12 +73,26 @@ struct ContentView: View {
             }
             
             HStack(alignment: .bottom, spacing: 150){
+                
                 Button("Restart") {
-                    round = 1
-                    score = 0
+                    showingAlert2 = true
+                    print("clicked")
                 }
-                .alert("Restar Game?", isPresented: $showingAlert) {
-                    
+                .alert(isPresented: $showingAlert2) {
+                    Alert(
+                        title: Text("Reset Game?"),
+                        message: Text("You want to reset the game?"),
+                        primaryButton: .default(
+                            Text("No")
+                        ),
+                        secondaryButton: .destructive(
+                            Text("Yes"),
+                            action: {
+                                score = 0;
+                                round = 1
+                            }
+                        )
+                    )
                 }
                 
                 Text("Score: \(score)")

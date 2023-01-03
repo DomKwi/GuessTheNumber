@@ -10,10 +10,12 @@ import SwiftUI
 struct ContentView: View {
     @State private var showingAlert = false
     @State var sliderValue: Float = 50
+    @State private var difference:Int = 0
     
-    var roundedValue:Int = Int(round(sliderValue))
+    
     var randomValue = Int.random(in: 1...100)
-    var difference: Int = 0
+    
+   
     
     
     
@@ -21,7 +23,7 @@ struct ContentView: View {
         VStack {
             Text("Put the Bull's Eys as close as you can to: \(randomValue)")
             Slider(
-                value:  $sliderValue,
+                value: $sliderValue,
                 in: 1...100,
                 minimumValueLabel: Text("1"),
                 maximumValueLabel: Text("100"),
@@ -34,17 +36,26 @@ struct ContentView: View {
                 print("Hit")
                 showingAlert = true
                 
-                if randomValue > sliderValue {
-                    
+                let roundedSliderValue:Int = Int(sliderValue)
+                
+                if randomValue > roundedSliderValue {
+                    difference = randomValue - roundedSliderValue
+                    print("Random value is now bigger than rounded slider value")
+                } else if randomValue < roundedSliderValue {
+                    difference = randomValue - roundedSliderValue
+                    print("Random Value is now lower that rounded slider value")
+                } else {
+                    difference = 0
+                    print("you win")
                 }
                 
             }
             .alert(isPresented: $showingAlert) {
                 Alert(
                     title: Text("Hello World!"),
-                    message: Text(
-                        String(format:"The value of slider is now: " + "%.0f", sliderValue)
-                        )
+                    message: Text("The value of the slider is now: \(randomValue)" +
+                                 "\nThe target value is: \(sliderValue) " +
+                                 "\nThe diffrence is: \(difference)")
                     )
             }
             
